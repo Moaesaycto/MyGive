@@ -10,3 +10,5 @@ MyGive was the first assignment in my COMP2041 course, which involved making a s
 - `mygive-submit` to submit a project
 - `mygive-summary` to get the summary of a student's assignment.
 - `mygive-test` to get a file to compare outputs to the expected.
+
+**If you would like me to make this project private, please let me know and I will do so immediately.** 
