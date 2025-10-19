@@ -1,0 +1,43 @@
+#!/bin/dash
+
+# ============================================================
+#   COMP2041 ASSIGNMENT 1 SUBMISSION | mygive-add
+#   Stephen Lerantges (z5319858)
+#   Term 2, 2024
+# ============================================================
+
+# $root defined here
+. ./_init.sh
+
+command="add"
+# No initial checks
+
+eval set -- "$(filter_args "strict" "$@")"
+assignment="$1"
+tests="$2"
+
+# Checks: handled externally
+argument_count_check "$command" "<assignment> <tests>" 2 2 "$#"
+
+# More checks: handled externally
+assignment_check "$assignment" "$command"
+
+# May need to change the position of this block
+root=".mygive"
+if [ ! -d "$root" ]; then
+    mkdir "$root"
+    echo "directory $root created"
+fi
+
+
+if [ -d "$root/$assignment" ]; then
+    echo "mygive-add: assignment $assignment already exists" >&2
+    exit 1
+fi
+
+test_file_check "$tests" "$command"
+
+# Main function
+mkdir "$root/$assignment"
+cp "$tests" "$root/$assignment/_TESTS"
+echo "assignment $assignment created"

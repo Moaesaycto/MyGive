@@ -1,0 +1,52 @@
+#!/bin/dash
+
+# ============================================================
+#   COMP2041 ASSIGNMENT 1 SUBMISSION | mygive-status
+#   Stephen Lerantges (z5319858)
+#   Term 2, 2024
+# ============================================================
+
+. ./_init.sh
+
+command="status"
+eval set -- "$(filter_args "soft" "$@")"
+preflight_checks "$command"
+
+zid="$1"
+
+# Checks handled externally
+argument_count_check "$command" "<zid>" 1 1 "$#"
+zid_check "$zid" "$command"
+
+totalsubs=0
+for dir in "$root"/*; do
+    if [ ! -d "$dir" ] || [ ! -d "$dir/$zid" ]; then
+        continue
+    fi
+
+    assignment=$(basename "$dir")
+    count=0
+
+    subdata=""
+    for sub in "$dir/$zid"/*; do
+        [ -d "$sub" ] || continue
+        count=$((count + 1))
+        file=$(ls "$sub" | grep -v '@TIMESTAMP')
+        size=$(stat -c%s "$sub/$file")
+        time=$(cat "$sub/@TIMESTAMP")
+
+        newdata="submission $count: $file $size bytes @ $time"
+        subdata="$subdata\n$newdata"
+    done
+
+    totalsubs=$((totalsubs + count))
+
+    if [ "$count" -gt 0 ]; then
+        echo "* $count submissions for $assignment"
+        echo "$subdata" | sed '1{/^$/d}'
+    fi
+done
+
+if [ "$totalsubs" -eq 0 ]; then
+    echo "no submissions for $zid"
+fi

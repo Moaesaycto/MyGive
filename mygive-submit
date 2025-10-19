@@ -1,0 +1,49 @@
+#!/bin/dash
+
+# ============================================================
+#   COMP2041 ASSIGNMENT 1 SUBMISSION | mygive-submit
+#   Stephen Lerantges (z5319858)
+#   Term 2, 2024
+# ============================================================
+
+. ./_init.sh
+
+command="submit"
+eval set -- "$(filter_args "strict" "$@")"
+preflight_checks "$command"
+
+assignment="$1"
+zid="$2"
+filename="$3"
+
+# Argument checking (done externally)
+argument_count_check "$command" "<assignment> <zid> <filename>" 3 3 "$#"
+zid_check "$zid" "$command"
+assignment_check "$assignment" "$command" 1
+file_exist_check "$filename" "$command"
+
+# Main stuff
+studir="$root/$assignment/$zid"
+mkdir -p "$studir"
+
+i=1
+while [ -d "$studir/$i" ]; do
+    i=$((i + 1))
+done
+
+subdir="$studir/$i"
+mkdir "$subdir"
+
+fname=$(basename "$filename")
+
+# Just in case...
+if ! cp "$filename" "$subdir/$fname"; then
+    echo "mygive-$command: failed to copy '$filename'" >&2
+    exit 1
+fi
+
+subdate=$(date +"%a %b %e %H:%M:%S %Y")
+echo "$subdate" >"$subdir/@TIMESTAMP"
+
+size=$(stat -c%s "$subdir/$fname")
+echo "Submission accepted - submission $i: $fname $size bytes @ $subdate"

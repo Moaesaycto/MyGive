@@ -1,0 +1,59 @@
+#!/bin/dash
+
+# ============================================================
+#   COMP2041 ASSIGNMENT 1 SUBMISSION | mygive-fetch
+#   Stephen Lerantges (z5319858)
+#   Term 2, 2024
+# ============================================================
+
+. ./_init.sh
+
+command="fetch"
+eval set -- "$(filter_args "soft" "$@")"
+preflight_checks "$command"
+
+assignment="$1"
+zid="$2"
+n="$3"
+
+argument_count_check "$command" "<assignment> <zid> [n]" 2 3 "$#"
+assignment_check "$assignment" "$command" 0
+zid_check "$zid" "$command"
+
+# Check n early (if provided)
+if [ "$#" -eq 3 ]; then
+    if ! echo "$n" | grep -Eq '^-?[0-9]+$'; then
+        echo "usage: mygive-fetch <assignment> <zid> [n]" >&2
+        exit 1
+    fi
+fi
+
+assignment_check "$assignment" "$command" 1
+
+# Confirm submissions exist
+if [ ! -d "$root/$assignment/$zid" ]; then
+    echo "mygive-fetch: no submissions found for $assignment" >&2
+    exit 1
+fi
+
+# Count and resolve submission number
+count=$(find "$root/$assignment/$zid" -mindepth 1 -maxdepth 1 -type d | wc -l)
+
+if [ "$#" -eq 3 ]; then
+    if [ "$n" -gt "$count" ] || [ "$n" -lt $((1 - count)) ]; then
+        echo "mygive-fetch: submission $n not found for $assignment" >&2
+        exit 1
+    fi
+
+    if [ "$n" -le 0 ]; then
+        subcount=$((count + n))
+    else
+        subcount="$n"
+    fi
+else
+    subcount="$count"
+fi
+
+dir="$root/$assignment/$zid/$subcount"
+file=$(ls "$dir" | grep -v '@TIMESTAMP')
+cat "$dir/$file"

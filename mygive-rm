@@ -1,0 +1,26 @@
+#!/bin/dash
+
+# ============================================================
+#   COMP2041 ASSIGNMENT 1 SUBMISSION | mygive-rm
+#   Stephen Lerantges (z5319858)
+#   Term 2, 2024
+# ============================================================
+
+. ./_init.sh
+
+command="rm"
+eval set -- "$(filter_args "strict" "$@")"
+preflight_checks "$command" "$@"
+
+assignment="$1"
+
+argument_count_check "$command" "<assignment>" 1 1 "$#"
+assignment_check "$assignment" "$command" 1
+
+dir="$root/$assignment"
+
+if [ -n "$dir" ] && [ -d "$dir" ]; then
+    rm -rf "$dir"
+fi
+
+echo "assignment $assignment removed"

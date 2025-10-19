@@ -1,0 +1,29 @@
+#!/bin/dash
+
+# ============================================================
+#   COMP2041 ASSIGNMENT 1 SUBMISSION | mygive-test
+#   Stephen Lerantges (z5319858)
+#   Term 2, 2024
+# ============================================================
+
+. ./_init.sh
+
+command="test"
+eval set -- "$(filter_args "soft" "$@")"
+preflight_checks "$command"
+
+assignment="$1"
+filename="$2"
+
+argument_count_check "$command" "<assignment> <filename>" 2 2 "$#"
+
+# This is so stupid, but apparently you need to check if the assignment exists AFTER
+# you verify the file. But before anything, you need to check the assignment name.
+# COMP2041, why are you like this?
+assignment_check "$assignment" "$command" 0
+test_submission_check "$filename" "$command"
+assignment_check "$assignment" "$command" 1
+
+# The brains of the operation is inside this file
+. ./_testing.sh
+testing "$assignment" "$filename" 0

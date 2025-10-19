@@ -1,0 +1,49 @@
+#!/bin/dash
+
+# ============================================================
+#   COMP2041 ASSIGNMENT 1 SUBMISSION | mygive-summary
+#   Stephen Lerantges (z5319858)
+#   Term 2, 2024
+# ============================================================
+
+. ./_init.sh
+
+command="summary"
+preflight_checks "$command"
+
+argument_count_check "$command" "" 0 0 "$#"
+
+# No assignments found
+found=0
+for dir in "$root"/*; do
+    if [ -d "$dir" ] && [ "$(basename "$dir")" != ".reference" ]; then
+        found=1
+        break
+    fi
+done
+
+if [ "$found" -eq 0 ]; then
+    echo "no assignments"
+    exit 0
+fi
+
+# Main Logic
+for dir in "$root"/*; do
+    if [ ! -d "$dir" ]; then
+        continue
+    fi
+
+    assignment=$(basename "$dir")
+
+    i=0
+    for student in "$dir"/*; do
+        if [ -d "$student" ]; then
+            if echo "$student" | grep -E "z[0-9]{7}$" >/dev/null; then
+                i=$((i + 1))
+            fi
+        fi
+    done
+
+    echo "assignment $assignment: submissions from $i students"
+
+done

@@ -1,0 +1,50 @@
+#!/bin/dash
+
+# ============================================================
+#   COMP2041 ASSIGNMENT 1 SUBMISSION | mygive-mark
+#   Stephen Lerantges (z5319858)
+#   Term 2, 2024
+# ============================================================
+
+. ./_init.sh
+
+command="mark"
+eval set -- "$(filter_args "strict" "$@")"
+preflight_checks "$command"
+
+assignment="$1"
+
+argument_count_check "$command" "<assignment>" 1 1 "$#"
+assignment_check "$assignment" "$command" 1
+
+# The brains of the operation is inside this file
+. ./_testing.sh
+
+for studir in "$root/$assignment"/*; do
+    if [ ! -d "$studir" ]; then
+        continue
+    fi
+
+    student=$(basename "$studir")
+
+    count=$(find "$studir" -maxdepth 1 -mindepth 1 -type d | wc -l)
+
+    for file in "$studir/$count"/*; do
+        base=$(basename "$file")
+        if [ "$base" != "@TIMESTAMP" ]; then
+            testingfile="$file"
+            break
+        else
+            timestamp=$(cat "$file")
+        fi
+    done
+
+    size=$(stat -c%s "$testingfile")
+
+    echo "*** Student $student - submission $count: $(basename "$testingfile") $size bytes @ $timestamp"
+
+    testing "$assignment" "$testingfile" 1
+
+done
+
+# testing "$assignment" "$filename" 1
