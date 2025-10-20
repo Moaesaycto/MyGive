@@ -1,14 +1,28 @@
-# MyGive
+# **MyGive**
 
-MyGive was the first assignment in my COMP2041 course, which involved making a series of scripts that would allow students to submit assignments and have them stored. Part of the functionality included testing the outputs with given results when initialising the assignment. For this project, I also created a test script to compare my code's output with the output of the example implementation. It contained the following commands:
+**Type:** CLI Tool · **Tech Stack:** Shell Scripting (POSIX/Bash) · **Status:** Completed
 
-- `mygive-add` to create a project.
-- `mygive-fetch` to retrieve a file.
-- `mygive-mark` to make a file with the provided tests.
-- `mygive-rm` to remove a project.
-- `mygive-status` to check the status of an assignment
-- `mygive-submit` to submit a project
-- `mygive-summary` to get the summary of a student's assignment.
-- `mygive-test` to get a file to compare outputs to the expected.
+## **Overview**
 
-**If you would like me to make this project private, please let me know and I will do so immediately.** 
+**MyGive** was the first assignment for **COMP2041**, a scripting-based reimplementation of a lightweight assignment submission and marking system. It replicates core `give` functionalities while introducing basic automation for marking and status checking.
+
+## **Features**
+
+* `mygive-add` — Create a new project.
+* `mygive-fetch` — Retrieve a submission file.
+* `mygive-mark` — Run provided tests and record results.
+* `mygive-rm` — Remove an existing project.
+* `mygive-status` — Display submission status for an assignment.
+* `mygive-submit` — Submit files for marking.
+* `mygive-summary` — View a summary of a student's submission and marks.
+* `mygive-test` — Compare program output against expected output.
+
+## **Extras**
+
+Includes a **custom test script** to verify correctness by comparing outputs against the example implementation.
+
+## **Purpose**
+
+Built to automate and simulate a submission backend using shell tools, reinforcing scripting, file manipulation, and process control concepts.
+
+*(Note: Can be made private upon request.)*
