@@ -8,14 +8,14 @@
 
 ## **Features**
 
-* `mygive-add` — Create a new project.
-* `mygive-fetch` — Retrieve a submission file.
-* `mygive-mark` — Run provided tests and record results.
-* `mygive-rm` — Remove an existing project.
-* `mygive-status` — Display submission status for an assignment.
-* `mygive-submit` — Submit files for marking.
-* `mygive-summary` — View a summary of a student's submission and marks.
-* `mygive-test` — Compare program output against expected output.
+* `mygive-add`: Create a new project.
+* `mygive-fetch`: Retrieve a submission file.
+* `mygive-mark`: Run provided tests and record results.
+* `mygive-rm`: Remove an existing project.
+* `mygive-status`: Display submission status for an assignment.
+* `mygive-submit`: Submit files for marking.
+* `mygive-summary`: View a summary of a student's submission and marks.
+* `mygive-test`: Compare program output against expected output.
 
 ## **Extras**
 
